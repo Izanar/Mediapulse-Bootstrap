@@ -6,6 +6,7 @@
 ---
 
 ## 🏗 Архитектура репозиториев
+- [x] **mediapulse-bootstrap** — Мета-репозиторий платформы. Содержит Техническое Задание (`SPECIFICATION.md`), дорожную карту (`TODO.md`), конфигурации окружения разработки (`.wslconfig`, `VS Code Workspace`), а также скрипты первичной инициализации WSL2/SRE инструментария (`setup.sh`).
 - [x] **mediapulse-app** — Исходный код API, Worker, Dockerfiles, CI.
 - [ ] **mediapulse-gitops** — Helm-чарты, манифесты ArgoCD.
 - [ ] **mediapulse-infra** — ИАК (Terraform / Terragrunt под AWS/GCP).
@@ -29,7 +30,7 @@
   - [x] Настройка SQLAlchemy 2.0 (`asyncpg`).
   - [x] Инициализация Alembic и первая асинхронная миграция (`media_tasks`).
 - [x] 1.5. Pydantic-схемы (`schemas.py`) и CRUD-операции (`crud.py`) для `MediaTask`.
-- [ ] 1.6. Роуты задач (`routers/tasks.py`) — создание и получение задач.
+- [x] 1.6. Роуты задач (`routers/tasks.py`) — создание и получение задач.
 - [ ] 1.7. Модуль авторизации (JWT, регистрация, вход, разграничение прав `is_public` / `private`).
 - [ ] 1.8. Фоновый воркер (Celery + Redis + Pillow) для инверсии цветов изображений.
 - [ ] 1.9. Интеграция MinIO / S3 для сохранения оригиналов и обработанных копий.
