@@ -1,3 +1,4 @@
+Настройка WSL2 (.wslconfig)
 Обязательно добавь конфиг ограничения ресурсов WSL2 на домашнем ПК (создается в Windows по пути C:\Users\<Ваш_Пользователь_Windows>\.wslconfig), иначе WSL2 со временем может забрать всю оперативную память:
 
 Ini, TOML
@@ -6,3 +7,7 @@ memory=12GB      # Или 8GB-10GB, если на ПК всего 16GB RAM
 processors=6     # 6-8 ядер
 swap=4GB
 localhostForwarding=true
+После создания файла выполни в Windows PowerShell:
+
+PowerShell
+wsl --shutdown
