@@ -15,6 +15,14 @@
     {
       "name": "3. GitOps (Mediapulse-Gitops)",
       "path": "../Mediapulse-Gitops"
+    },
+    {
+      "name": "Mediapulse",
+      "path": ".."
+    },
+    {
+      "name": "izanar",
+      "path": "../.."
     }
   ],
   "settings": {
