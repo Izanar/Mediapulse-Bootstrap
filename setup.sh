@@ -12,6 +12,7 @@ echo "[2/4] Installing core tools (curl, git, python3.12, pip, venv)..."
 sudo apt-get install -y \
 curl \
 git \
+gh \
 build-essential \
 python3.12 \
 python3.12-venv \
