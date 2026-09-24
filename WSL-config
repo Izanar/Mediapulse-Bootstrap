@@ -2,13 +2,20 @@
 Обязательно добавь конфиг ограничения ресурсов WSL2 на домашнем ПК (создается в Windows по пути 
 C:\Users\<Ваш_Пользователь_Windows>\.wslconfig), иначе WSL2 со временем может забрать всю оперативную память:
 
-Ini, TOML
+Запустите в PowerShell (от имени вашего пользователя):
+$sysInfo = Get-CimInstance Win32_ComputerSystem
+$totalRamGB = [Math]::Round(($sysInfo.TotalPhysicalMemory / 1GB) * 0.8)
+$totalCores = [Math]::Max(1, [Math]::Round(((Get-CimInstance Win32_Processor | Measure-Object -Property NumberOfLogicalProcessors -Sum).Sum) * 0.8))
+
+@'
 [wsl2]
-memory=12GB      # Или 8GB-10GB, если на ПК всего 16GB RAM
-processors=6     # 6-8 ядер
+memory={0}GB
+processors={1}
 swap=4GB
 localhostForwarding=true
-После создания файла выполни в Windows PowerShell:
+'@ -f $totalRamGB, $totalCores | Out-File -Encoding utf8NoBOM $HOME\.wslconfig
 
-PowerShell
-wsl --shutdown
+Как это отработает:RAM: Считает полный объем оперативной памяти Windows в ГБ, берет 80% и округляет 
+(например, если у вас 16 ГБ RAM — установит 13GB или 12GB в зависимости от точности планок).
+CPU: Берет 80% логических ядер (в вашем случае из 16 ядер выйдет 13).   
+Перезаписывает .wslconfig без проблем с кодировкой.
