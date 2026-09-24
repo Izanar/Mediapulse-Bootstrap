@@ -1,0 +1,2 @@
+Стандартная команда для запуска вашего Celery-воркера из корневой директории проекта:
+.venv/bin/celery -A app.worker.celery_app worker --loglevel=info
