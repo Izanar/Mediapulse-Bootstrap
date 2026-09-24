@@ -4,11 +4,11 @@ set -e
 echo "===[MediaPulse Environment Setup]==="
 
 # 1. Обновление пакетов
-echo "[1/6] Updating packages..."
+echo "[1/7] Updating packages..."
 sudo apt-get update -y && sudo apt-get upgrade -y
 
 # 2. Установка базовых утилит
-echo "[2/6] Installing core tools (curl, git, gh, python3.12, pip, venv)..."
+echo "[2/7] Installing core tools (curl, git, gh, python3.12, pip, venv)..."
 sudo apt-get install -y \
   curl \
   git \
@@ -34,7 +34,7 @@ fi
 
 # 3. Проверка/Установка Docker
 if ! command -v docker &> /dev/null; then
-    echo "[3/6] Installing Docker Engine..."
+    echo "[3/7] Installing Docker Engine..."
     sudo install -m 0755 -d /etc/apt/keyrings
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg --yes
     sudo chmod a+r /etc/apt/keyrings/docker.gpg
@@ -49,12 +49,12 @@ if ! command -v docker &> /dev/null; then
     sudo usermod -aG docker $USER
     echo "-> Docker installed! NOTE: You may need to restart WSL or run 'newgrp docker'."
 else
-    echo "[3/6] Docker is already installed"
+    echo "[3/7] Docker is already installed"
 fi
 
 # 4. Проверка/Установка Kubernetes CLI (kubectl) & Kind
 if ! command -v kubectl &> /dev/null || ! command -v kind &> /dev/null; then
-    echo "[4/6] Installing kubectl and Kind..."
+    echo "[4/7] Installing kubectl and Kind..."
     
     # kubectl
     if ! command -v kubectl &> /dev/null; then
@@ -71,21 +71,36 @@ if ! command -v kubectl &> /dev/null || ! command -v kind &> /dev/null; then
         sudo mv ./kind /usr/local/bin/kind
     fi
 else
-    echo "[4/6] kubectl and Kind are already installed"
+    echo "[4/7] kubectl and Kind are already installed"
 fi
 
 # 5. Проверка/Установка Helm
 if ! command -v helm &> /dev/null; then
-    echo "[5/6] Installing Helm..."
+    echo "[5/7] Installing Helm..."
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 else
-    echo "[5/6] Helm is already installed"
+    echo "[5/7] Helm is already installed"
 fi
 
-# 6. Проверка установленных версий
-echo "[6/6] Verifying installations..."
+# 6. Создание виртуального окружения Python и установка зависимостей
+echo "[6/7] Setting up Python virtual environment and installing dependencies..."
+if [ ! -d ".venv" ]; then
+    python3.12 -m venv .venv
+fi
+source .venv/bin/activate
+pip install --upgrade pip
+if [ -f "requirements.txt" ]; then
+    pip install -r requirements.txt
+    echo "-> Python dependencies installed successfully!"
+else
+    echo "-> Warning: requirements.txt not found in the current directory."
+fi
+
+# 7. Проверка установленных версий
+echo "[7/7] Verifying installations..."
 echo "OS Version: $(lsb_release -ds)"
 echo "Python Version: $(python3.12 --version)"
+echo "Virtual Environment: $(which python)"
 echo "Git Version: $(git --version)"
 echo "GitHub CLI Version: $(gh --version | head -n 1)"
 echo "Docker Version: $(docker --version || echo 'Docker service not running or permission needed')"
