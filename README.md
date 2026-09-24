@@ -2,9 +2,9 @@
 
 <div align="center">
 
-[![Platform](https://img.shields.io/badge/Platform-WSL2%20%2F%20Ubuntu-blue?style=for-the-badge&logo=ubuntu)](https://releases.ubuntu.com/24.04/)
-[![DevOps](https://img.shields.io/badge/DevOps-Docker%20%7C%20Kind%20%7C%20Helm-orange?style=for-the-badge&logo=docker)](https://docker.com)
-[![GitOps](https://img.shields.io/badge/GitOps-ArgoCD-red?style=for-the-badge&logo=argo)](https://argoproj.github.io/)
+[![Platform](https://img.shields.io/badge/Platform-WSL2%20%2F%20Ubuntu-blue?style=for-the-badge&logo=ubuntu&logoColor=white)](https://releases.ubuntu.com/24.04/)
+[![DevOps](https://img.shields.io/badge/DevOps-Docker%20%7C%20Kind%20%7C%20Helm-orange?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com)
+[![GitOps](https://img.shields.io/badge/GitOps-ArgoCD-red?style=for-the-badge&logo=argo&logoColor=white)](https://argoproj.github.io/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
 </div>
