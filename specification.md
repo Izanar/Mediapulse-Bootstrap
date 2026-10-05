@@ -16,7 +16,7 @@
 
 ### 2.1 Back-end API & Worker
 - **Язык программирования:** Python 3.12+
-- **API Фреймворк:** FastAPI (AsyncIO, Pydantic v2)
+- **API Фреймворк:** FastAPI (AsyncIO, Pydantic v3)
 - **Фоновое выполнение задач:** Celery
 - **Брокер сообщений / Кэш:** Redis 7
 - **Обработка изображений:** Pillow (PIL)
@@ -24,13 +24,14 @@
 ### 2.2 База данных и Хранилище
 - **Основная СУБД:** PostgreSQL 16
 - **ORM / Миграции:** SQLAlchemy 2.0 (asyncpg) + Alembic
-- **Объектное хранилище (Object Storage):** MinIO (S3 API compatibility)
+- **Объектное хранилище (Object Storage):** R2 Cloudflare (S3 API compatibility)
 
 ### 2.3 Инфраструктура и GitOps
 - **Контейнеризация:** Docker (Multi-stage builds)
 - **Оркестрация:** Kubernetes (Kind локально, EKS/GKE в облаке)
 - **Ingress Controller:** NGINX Ingress Controller
 - **GitOps CD:** ArgoCD
+- **Пакетный менеджер проекта:** Helm 
 - **IaC (Infrastructure as Code):** Terraform / Terragrunt
 
 ---
