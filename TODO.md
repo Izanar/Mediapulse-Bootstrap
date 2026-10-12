@@ -48,15 +48,15 @@
 ---
 
 ## 📍 Этап 3: Локальный Kubernetes (Kind)
-- [ ] 3.1. Установка `kubectl` и `kind` в WSL2.
-- [ ] 3.2. Создание конфига `kind-config.yaml` (1 Master + 3 Workers) и запуск HA-кластера.
-- [ ] 3.3. Установка и настройка NGINX Ingress Controller.
+- [x] 3.1. Установка `kubectl` и `kind` в WSL2.
+- [x] 3.2. Создание конфига `kind-config.yaml` (1 Master + 3 Workers) и запуск HA-кластера.
+- [x] 3.3. Установка и настройка NGINX Ingress Controller.
 
 ---
 
 ## 📍 Этап 4: GitOps & Helm (`mediapulse-gitops`)
-- [ ] 4.1. Разворачивание ArgoCD внутри Kind.
-- [ ] 4.2. Создание Helm-чартов (Postgres, Redis, MinIO, API, Worker).
+- [x] 4.1. Разворачивание ArgoCD внутри Kind.
+- [ ] 4.2. Создание Helm-чартов (Postgres, Redis, API, Worker).
 - [ ] 4.3. Настройка ArgoCD Application деклараций и проверка авто-деплоя.
 
 ---
