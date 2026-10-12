@@ -8,7 +8,7 @@
 ## 🏗 Архитектура репозиториев
 - [x] **mediapulse-bootstrap** — Мета-репозиторий платформы. Содержит Техническое Задание (`SPECIFICATION.md`), дорожную карту (`TODO.md`), конфигурации окружения разработки (`.wslconfig`, `VS Code Workspace`), а также скрипты первичной инициализации WSL2/SRE инструментария (`setup.sh`).
 - [x] **mediapulse-app** — Исходный код API, Worker, Dockerfiles, CI.
-- [ ] **mediapulse-gitops** — Helm-чарты, манифесты ArgoCD.
+- [x] **mediapulse-gitops** — Helm-чарты, манифесты ArgoCD.
 - [ ] **mediapulse-infra** — IaC (Terraform / Terragrunt под AWS/GCP).
 
 ---
@@ -56,9 +56,10 @@
 
 ## 📍 Этап 4: GitOps & Helm (`mediapulse-gitops`)
 - [x] 4.1. Разворачивание ArgoCD внутри Kind.
-- [ ] 4.2. Создание Helm-чартов (Postgres, Redis, API, Worker).
-- [ ] 4.3. Настройка ArgoCD Application деклараций и проверка авто-деплоя.
-
+- [x] 4.2. Создание Helm-чартов (Postgres, Redis, API, Worker).
+- [x] 4.3. Настройка ArgoCD Application деклараций и проверка авто-деплоя.
+- [ ] 4.4. Тюнинг лимитов Ingress Controller для загрузки крупных файлов (`nginx.ingress.kubernetes.io/proxy-body-size`).
+- [ ] 4.5. Устранение системных ограничений на количество открытых файловых дескрипторов (`too many open files` / `fsnotify`) в среде Kubernetes / Kind.
 ---
 
 ## 📍 Этап 5: Облачная инфраструктура (`mediapulse-infra`)

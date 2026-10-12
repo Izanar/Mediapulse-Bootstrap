@@ -9,9 +9,11 @@
 
 Платформа MediaPulse построена на принципах разделения ответственности (Separation of Concerns) и состоит из 4 репозиториев:
 
+Платформа MediaPulse построена на принципах разделения ответственности (Separation of Concerns) и состоит из 4 репозиториев:
+
 1. **`mediapulse-bootstrap`** — Мета-репозиторий платформы. Содержит Техническое Задание (`SPECIFICATION.md`), дорожную карту (`TODO.md`), конфигурации окружения разработки (`.wslconfig`, `VS Code Workspace`), а также скрипты первичной инициализации WSL2/SRE инструментария (`setup.sh`).
 2. **`mediapulse-app`** — Исходный код Python (FastAPI API, Celery Worker, SQLAlchemy/Alembic миграции, Dockerfiles, unit/integration тесты и CI-пайплайны GitHub Actions).
-3. **`mediapulse-gitops`** — Декларативные Helm-чарты, окружения (dev/stage/prod) и ArgoCD Application манифесты для GitOps-деплоя в Kubernetes.
+3. **`mediapulse-gitops`** — Декларативные Helm-чарты (с поддержкой Helm Hooks для миграций), окружения и ArgoCD Application манифесты для GitOps-деплоя в Kubernetes.
 4. **`mediapulse-infra`** — Инфраструктурный код (IaC) на Terraform / Terragrunt для развертывания облачных ресурсов (VPC, EKS/GKE, RDS PostgreSQL, Managed S3).
 
 ### 2.1 Back-end API & Worker
@@ -23,8 +25,8 @@
 
 ### 2.2 База данных и Хранилище
 - **Основная СУБД:** PostgreSQL 16
-- **ORM / Миграции:** SQLAlchemy 2.0 (asyncpg) + Alembic
-- **Объектное хранилище (Object Storage):** R2 Cloudflare (S3 API compatibility)
+- **ORM / Миграции:** SQLAlchemy 2.0 (asyncpg) + Alembic (автоматизация через Kubernetes Helm Hooks `pre-upgrade`)
+- **Объектное хранилище (Object Storage):** Cloudflare R2 (S3-совместимый API, `boto3`)
 
 ### 2.3 Инфраструктура и GitOps
 - **Контейнеризация:** Docker (Multi-stage builds)
