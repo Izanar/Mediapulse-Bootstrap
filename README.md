@@ -7,7 +7,7 @@
 [![Setup](https://img.shields.io/badge/Setup-Bash%20%7C%20WSL2-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white)](setup.sh)
 [![Tooling](https://img.shields.io/badge/Tooling-Docker%20%7C%20Kind%20%7C%20Helm-orange?style=for-the-badge&logo=docker&logoColor=white)](setup.sh)
 [![Python](https://img.shields.io/badge/Python-3.12%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MPPL%201.0-blue?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/License-MPL%202.0-blue?style=for-the-badge)](LICENSE.md)
 
 </div>
 
