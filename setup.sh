@@ -75,7 +75,8 @@ fi
 
 if ! has_cmd kind; then
     echo "  -> Installing Kind..."
-    curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.22.0/kind-linux-amd64
+    # Змінюємо версію Kind на актуальнішу (наприклад, v0.24.0 для підтримки k8s 1.30+)
+    curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.24.0/kind-linux-amd64
     chmod +x ./kind
     sudo mv ./kind /usr/local/bin/kind
 else
