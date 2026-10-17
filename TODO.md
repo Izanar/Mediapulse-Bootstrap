@@ -58,7 +58,7 @@
 - [x] 4.1. Разворачивание ArgoCD внутри Kind.
 - [x] 4.2. Создание Helm-чартов (Postgres, Redis, API, Worker).
 - [x] 4.3. Настройка ArgoCD Application деклараций и проверка авто-деплоя.
-- [ ] 4.4. Замена Nginx Ingress Controller на Traefik.
+- [x] 4.4. Замена Nginx Ingress Controller на Traefik.
 - [ ] 4.5. Внедрение хранилища секретов Hashicorp. Замена секретов на скрытые. 
 - [ ] 4.6. Тюнинг лимитов Ingress Controller для загрузки крупных файлов (`nginx.ingress.kubernetes.io/proxy-body-size`).
 - [ ] 4.7. Устранение системных ограничений на количество открытых файловых дескрипторов (`too many open files` / `fsnotify`) в среде Kubernetes / Kind.
