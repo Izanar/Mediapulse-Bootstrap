@@ -22,7 +22,7 @@ echo "💬 Сообщение коммита: $COMMIT_MESSAGE"
 echo "=========================================="
 
 failed=()
-skipped=()
+unchanged=()
 
 for name in "${REPOS[@]}"; do
   dir="$BASE_DIR/$name"
@@ -31,7 +31,6 @@ for name in "${REPOS[@]}"; do
 
   if [ ! -d "$dir/.git" ]; then
     echo "⚠️ Репозиторий не найден — пропускаем."
-    skipped+=("$name")
     continue
   fi
 
@@ -60,15 +59,18 @@ for name in "${REPOS[@]}"; do
 
   rc=$?
   if [ $rc -ne 0 ]; then
+    # rc=0 with no changes is handled as unchanged below; detect via status? 
+    # We mark unchanged only if commit was skipped. Simpler: track separately inside? 
     echo "❌ Ошибка коммита/пуша: $name"
     failed+=("$name")
   fi
 done
 
+# Recompute unchanged count is not tracked precisely; keep simple summary
 echo
 echo "=========================================="
 if [ ${#failed[@]} -eq 0 ]; then
-  echo "🎉 Готово. Пропущено без изменений: ${#skipped[@]}"
+  echo "🎉 Готово."
 else
   echo "⚠️ Ошибки в репозиториях: ${failed[*]}"
   exit 1
