@@ -9,16 +9,14 @@
 
 Платформа MediaPulse построена на принципах разделения ответственности (Separation of Concerns) и состоит из 4 репозиториев:
 
-Платформа MediaPulse построена на принципах разделения ответственности (Separation of Concerns) и состоит из 4 репозиториев:
-
-1. **`mediapulse-bootstrap`** — Мета-репозиторий платформы. Содержит Техническое Задание (`SPECIFICATION.md`), дорожную карту (`TODO.md`), конфигурации окружения разработки (`.wslconfig`, `VS Code Workspace`), а также скрипты первичной инициализации WSL2/SRE инструментария (`setup.sh`).
+1. **`mediapulse-bootstrap`** — Мета-репозиторий платформы. Содержит техническую спецификацию (`specification.md`), дорожную карту (`TODO.md`), конфигурации окружения разработки (`WSL-config`, `VS Code Workspace`), а также скрипты установки WSL2/SRE-инструментария (`setup.sh`).
 2. **`mediapulse-app`** — Исходный код Python (FastAPI API, Celery Worker, SQLAlchemy/Alembic миграции, Dockerfiles, unit/integration тесты и CI-пайплайны GitHub Actions).
 3. **`mediapulse-gitops`** — Декларативные Helm-чарты (с поддержкой Helm Hooks для миграций), окружения и ArgoCD Application манифесты для GitOps-деплоя в Kubernetes.
-4. **`mediapulse-infra`** — Инфраструктурный код (IaC) на Terraform / Terragrunt для развертывания облачных ресурсов (VPC, EKS/GKE, RDS PostgreSQL, Managed S3).
+4. **`mediapulse-infra`** — Текущие конфигурации локального Kind-кластера и его GitOps-развертывания. Облачная инфраструктура как код на Terraform / Terragrunt (VPC, EKS/GKE, RDS PostgreSQL, Managed S3) запланирована, но ещё не реализована.
 
 ### 2.1 Back-end API & Worker
 - **Язык программирования:** Python 3.12+
-- **API Фреймворк:** FastAPI (AsyncIO, Pydantic v3)
+- **API Фреймворк:** FastAPI (AsyncIO, Pydantic v2)
 - **Фоновое выполнение задач:** Celery
 - **Брокер сообщений / Кэш:** Redis 7
 - **Обработка изображений:** Pillow (PIL)
@@ -30,11 +28,17 @@
 
 ### 2.3 Инфраструктура и GitOps
 - **Контейнеризация:** Docker (Multi-stage builds)
-- **Оркестрация:** Kubernetes (Kind локально, EKS/GKE в облаке)
-- **Ingress Controller:** NGINX Ingress Controller
+- **Оркестрация:** Kubernetes (Kind локально; EKS/GKE рассматриваются для будущей облачной инфраструктуры)
+- **Ingress Controller:** Traefik (локальный Kind-кластер)
 - **GitOps CD:** ArgoCD
 - **Пакетный менеджер проекта:** Helm 
-- **IaC (Infrastructure as Code):** Terraform / Terragrunt
+- **IaC (Infrastructure as Code):** Terraform / Terragrunt (облачная инфраструктура запланирована)
+
+### 2.4 Локальный доступ и секреты
+
+Локальный кластер публикует сервисы на домене `izanar.dev` через Cloudflare Tunnel. Cloudflare Access защищает административные панели. Публичный HTTPS завершается на Cloudflare; соединение connector → Traefik внутри кластера использует HTTP. Внутренние сертификаты, cert-manager и внутренний CA не настроены. Подробный локальный сценарий и маршруты описаны в [каноническом README Mediapulse-Infra](../Mediapulse-Infra/README.md).
+
+Для локального Kind секреты загружаются в Vault и передаются в Kubernetes через External Secrets Operator (ESO); секреты не хранятся в Git. Конфигурация Vault из локального сценария предназначена только для разработки и не является production-решением. Для production требуется отдельная защищённая конфигурация управления секретами.
 
 ---
 
@@ -72,7 +76,7 @@
 1. **Scalability:** API и Celery Workers должны масштабироваться независимо (HPA в Kubernetes).
 2. **Observability:** Healthcheck эндпоинты (`/health`, `/ready`), структурированные JSON-логи, метрики Prometheus.
 3. **Security:**
-   - Отсутствие открытых секретов в Git (использование Kubernetes Secrets / SealedSecrets).
+   - Отсутствие открытых секретов в Git. Локально используется Vault + External Secrets Operator; production-решение управления секретами должно быть спроектировано отдельно и не должно полагаться на локальную конфигурацию Vault.
    - Запуск контейнеров от имени privileged-free пользователя (`non-root`).
 4. **GitOps Workflow:**
    - Вся конфигурация K8s хранится декларативно в `mediapulse-gitops`.
@@ -84,7 +88,7 @@
 
 ```text
 mediapulse/
-├── mediapulse-bootstrap/ # ТЗ, ROADMAP, WSL2/Dev setup scripts, VS Code Workspace
+├── mediapulse-bootstrap/ # specification.md, TODO.md, WSL2/Dev setup scripts, VS Code Workspace
 ├── mediapulse-app/       # Python code (FastAPI + Celery + Dockerfiles)
 ├── mediapulse-gitops/    # K8s manifests, Helm charts & ArgoCD Applications
-└── mediapulse-infra/     # Terraform/Terragrunt infrastructure code
+└── mediapulse-infra/     # Локальный Kind-кластер; облачная Terraform/Terragrunt IaC запланирована

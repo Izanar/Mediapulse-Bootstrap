@@ -1,15 +1,18 @@
 # MediaPulse — Project Roadmap & Task Board
 
 > **Формат работы:** Micro-stepping (Шаг -> Проверка -> Следующий шаг).
-> **Цель:** Production-grade SRE/DevOps архитектура (Python 3.12 + FastAPI + Celery + Kind + ArgoCD + Terraform).
+> **Цель:** Production-grade SRE/DevOps архитектура (Python 3.12 + FastAPI + Celery + Kind + ArgoCD; облачная IaC на Terraform запланирована).
+
+> **Локальный кластер:** Каноническая инструкция по развертыванию, Cloudflare Tunnel и доступу к сервисам находится в [README Mediapulse-Infra](../Mediapulse-Infra/README.md).
 
 ---
 
 ## 🏗 Архитектура репозиториев
-- [x] **mediapulse-bootstrap** — Мета-репозиторий платформы. Содержит Техническое Задание (`SPECIFICATION.md`), дорожную карту (`TODO.md`), конфигурации окружения разработки (`.wslconfig`, `VS Code Workspace`), а также скрипты первичной инициализации WSL2/SRE инструментария (`setup.sh`).
+- [x] **mediapulse-bootstrap** — Мета-репозиторий платформы. Содержит техническую спецификацию (`specification.md`), дорожную карту (`TODO.md`), конфигурации окружения разработки (`WSL-config`, `VS Code Workspace`), а также скрипты установки WSL2/SRE-инструментария (`setup.sh`).
 - [x] **mediapulse-app** — Исходный код API, Worker, Dockerfiles, CI.
 - [x] **mediapulse-gitops** — Helm-чарты, манифесты ArgoCD.
-- [ ] **mediapulse-infra** — IaC (Terraform / Terragrunt под AWS/GCP).
+- [x] **mediapulse-infra** — Репозиторий конфигураций локального Kind-кластера и GitOps-развертывания.
+- [ ] **Облачная инфраструктура** — IaC на Terraform / Terragrunt под AWS/GCP (планируется, ещё не реализована).
 
 ---
 
@@ -50,7 +53,7 @@
 ## 📍 Этап 3: Локальный Kubernetes (Kind)
 - [x] 3.1. Установка `kubectl` и `kind` в WSL2.
 - [x] 3.2. Создание конфига `kind-config.yaml` (1 Master + 3 Workers) и запуск HA-кластера.
-- [x] 3.3. Установка и настройка NGINX Ingress Controller.
+- [x] 3.3. Установка и настройка Ingress Controller (сейчас Traefik; заменил NGINX, см. 4.4).
 
 ---
 
@@ -59,9 +62,9 @@
 - [x] 4.2. Создание Helm-чартов (Postgres, Redis, API, Worker).
 - [x] 4.3. Настройка ArgoCD Application деклараций и проверка авто-деплоя.
 - [x] 4.4. Замена Nginx Ingress Controller на Traefik.
-- [ ] 4.5. Внедрение хранилища секретов Hashicorp. Замена секретов на скрытые.
+- [x] 4.5. Локальное хранилище секретов Vault и синхронизация через External Secrets Operator (ESO). Production-конфигурация хранилища секретов остаётся отдельной задачей.
 
 ## 📍 Этап 5: Облачная инфраструктура (`mediapulse-infra`)
-- [ ] 5.1. Проектирование структуры модулей Terraform/Terragrunt.
+- [ ] 5.1. Проектирование структуры модулей Terraform/Terragrunt (облачная инфраструктура ещё не реализована).
 - [ ] 5.2. Написание манифестов (VPC, EKS, RDS, S3).
 - [ ] 5.3. Выполнение `terraform plan` и тестовый деплой в облако.
