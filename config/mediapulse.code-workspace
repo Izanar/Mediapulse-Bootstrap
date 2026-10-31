@@ -1,0 +1,28 @@
+{
+  "folders": [
+    {
+      "name": "Mediapulse-App",
+      "path": "../../Mediapulse-App"
+    },
+    {
+      "name": "Mediapulse-Bootstrap",
+      "path": ".."
+    },
+    {
+      "name": "Mediapulse-Gitops",
+      "path": "../../Mediapulse-Gitops"
+    },
+    {
+      "name": "Mediapulse-Infra",
+      "path": "../../Mediapulse-Infra"
+    }
+  ],
+  "settings": {
+    "python.defaultInterpreterPath": "${workspaceFolder:Mediapulse-App}/.venv/bin/python",
+    "files.associations": {
+      "*.yaml": "yaml",
+      "*.yml": "yaml",
+      "Dockerfile.*": "dockerfile"
+    }
+  }
+}

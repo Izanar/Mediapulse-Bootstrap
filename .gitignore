@@ -1,1 +1,15 @@
-.venv
+# Python / virtual environments
+.venv/
+__pycache__/
+*.pyc
+
+# OS / editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+.idea/
+.vscode/
+
+# Logs
+*.log

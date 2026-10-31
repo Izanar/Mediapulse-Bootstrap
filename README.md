@@ -2,37 +2,50 @@
 
 <div align="center">
 
-[![Docs](https://img.shields.io/badge/Docs-Specification%20%7C%20Roadmap-0077B6?style=for-the-badge&logo=readthedocs&logoColor=white)](specification.md)
-[![Platform](https://img.shields.io/badge/Platform-WSL2%20%2F%20Ubuntu-blue?style=for-the-badge&logo=ubuntu&logoColor=white)](https://releases.ubuntu.com/24.04/)
-[![Setup](https://img.shields.io/badge/Setup-Bash%20%7C%20WSL2-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white)](setup.sh)
-[![Tooling](https://img.shields.io/badge/Tooling-Docker%20%7C%20Kind%20%7C%20Helm-orange?style=for-the-badge&logo=docker&logoColor=white)](setup.sh)
+[![Docs](https://img.shields.io/badge/Docs-Specification%20%7C%20Roadmap-0077B6?style=for-the-badge&logo=readthedocs&logoColor=white)](docs/specification.md)
+[![Platform](https://img.shields.io/badge/Platform-WSL2%20%7C%20Ubuntu-blue?style=for-the-badge&logo=ubuntu&logoColor=white)](https://releases.ubuntu.com/24.04/)
+[![Setup](https://img.shields.io/badge/Setup-Bash%20%7C%20WSL2-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white)](Makefile)
+[![Tooling](https://img.shields.io/badge/Tooling-Docker%20%7C%20Kind%20%7C%20Helm-orange?style=for-the-badge&logo=docker&logoColor=white)](kind/setup-kind.sh)
 [![Python](https://img.shields.io/badge/Python-3.12%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MPL%202.0-blue?style=for-the-badge)](LICENSE.md)
 
 </div>
 
-> Мета-репозиторий платформы **MediaPulse**. Содержит техническое задание, дорожную карту, конфигурации локального окружения и скрипты установки инструментов разработки.
+> Мета-репозиторий платформы **MediaPulse**. Содержит техническую спецификацию, дорожную карту, конфигурации локального окружения и скрипты установки инструментов разработки.
 
 ---
 
 ## 📂 Структура репозитория
 
-* **`specification.md`** — Детальная техническая спецификация системы и архитектурные требования.
-* **`TODO.md`** — Актуальная доска задач и дорожная карта (Roadmap) проекта.
-* **`setup.sh`** — Скрипт установки системных и SRE-инструментов в WSL2; не разворачивает Kubernetes-кластер.
-* **`WSL-config`** — Рекомендуемая конфигурация ресурсов для WSL2.
-* **`mediapulse.code-workspace`** — Конфигурация рабочего пространства VS Code для всех репозиториев платформы.
-* **`Celery-run`** — Шпаргалка: команда запуска Celery-воркера из корня проекта.
+* **`docs/specification.md`** — Детальная техническая спецификация системы и архитектурные требования.
+* **`docs/TODO.md`** — Актуальная доска задач и дорожная карта (Roadmap) проекта.
+* **`kind/setup-kind.sh`** — Устанавливает инструменты для локальной разработки с Kind.
+* **`gcp/setup-gcp.sh`** — Устанавливает Google Cloud CLI, Terraform, Terragrunt, `kubectl`, Helm и GKE auth plugin.
+* **`Makefile`** — Команды `make make-kind` и `make make-gcp` для запуска установщиков.
+* **`config/WSL-config`** — Рекомендуемая конфигурация ресурсов для WSL2.
+* **`config/Celery-run`** — Шпаргалка: команда запуска Celery-воркера из корня проекта `mediapulse-app`.
+* **`config/mediapulse.code-workspace`** — Конфигурация рабочего пространства VS Code для всех репозиториев платформы.
+* **`local-git/`** — Скрипты синхронизации и публикации всех четырёх репозиториев MediaPulse.
+* **`LICENSE.md`** — Лицензия проекта (MPL-2.0).
 
 ---
 
 ## ⚙️ Быстрый старт (Установка инструментов)
 
-Запустите скрипт в терминале WSL2, чтобы установить системные инструменты, включая Docker, kubectl, Kind, Helm, GitHub CLI и Terraform. Скрипт не создает кластер и не выполняет развертывание MediaPulse. Он создает `.venv` только если запущен в каталоге проекта, содержащем `requirements.txt` или `pyproject.toml`; зависимости устанавливаются только из `requirements.txt`, если этот файл есть.
+В WSL2/Ubuntu запустите нужный установщик из корня репозитория. Установка системных пакетов потребует `sudo`.
 
 ```bash
-chmod +x setup.sh
-./setup.sh
+make make-kind
+make make-gcp
 ```
 
+`make-kind` устанавливает локальный toolchain (Docker, GitHub CLI, kubectl, Kind, Helm, Python) и не создаёт кластер. `make-gcp` устанавливает облачные/IaC-инструменты (gcloud, Terraform, Terragrunt, kubectl, Helm, GKE auth plugin), но не создаёт GCP-ресурсы и не выполняет авторизацию. Для входа в Google Cloud после установки выполните `gcloud auth login` и выберите проект командой `gcloud config set project PROJECT_ID`.
+
 Для создания локального кластера используйте каноническую инструкцию в [README репозитория Mediapulse-Infra](../Mediapulse-Infra/README.md): из каталога `Mediapulse-Infra/local/` выполните `make all-up`. Там же описаны доступ к сервисам и настройка Cloudflare Tunnel. Локальные сервисы доступны на домене `izanar.dev`; панели защищены Cloudflare Access. Публичный HTTPS завершается на Cloudflare, а соединение connector → Traefik внутри кластера использует HTTP; внутренние сертификаты и CA не настроены.
+
+---
+
+## 🔧 Примечания
+
+* Локальный кластер, секреты (Vault + ESO) и GitOps-развёртывание описаны в `mediapulse-infra` и `mediapulse-gitops`; bootstrap-репозиторий не хранит секреты и не создаёт кластер.
+* Если репозитории лежат рядом в каталоге `Mediapulse/`, используйте скрипты из `local-git/` для синхронизации.

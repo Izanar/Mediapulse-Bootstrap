@@ -3,12 +3,12 @@
 > **Формат работы:** Micro-stepping (Шаг -> Проверка -> Следующий шаг).
 > **Цель:** Production-grade SRE/DevOps архитектура (Python 3.12 + FastAPI + Celery + Kind + ArgoCD; облачная IaC на Terraform запланирована).
 
-> **Локальный кластер:** Каноническая инструкция по развертыванию, Cloudflare Tunnel и доступу к сервисам находится в [README Mediapulse-Infra](../Mediapulse-Infra/README.md).
+> **Локальный кластер:** Каноническая инструкция по развертыванию, Cloudflare Tunnel и доступу к сервисам находится в [README Mediapulse-Infra](../../Mediapulse-Infra/README.md).
 
 ---
 
 ## 🏗 Архитектура репозиториев
-- [x] **mediapulse-bootstrap** — Мета-репозиторий платформы. Содержит техническую спецификацию (`specification.md`), дорожную карту (`TODO.md`), конфигурации окружения разработки (`WSL-config`, `VS Code Workspace`), а также скрипты установки WSL2/SRE-инструментария (`setup.sh`).
+- [x] **mediapulse-bootstrap** — Мета-репозиторий платформы. Содержит техническую спецификацию (`docs/specification.md`), дорожную карту (`docs/TODO.md`), шпаргалку Celery (`config/Celery-run`), конфигурацию WSL2 (`config/WSL-config`), VS Code Workspace (`config/mediapulse.code-workspace`) и установщики инструментов для Kind и GCP.
 - [x] **mediapulse-app** — Исходный код API, Worker, Dockerfiles, CI.
 - [x] **mediapulse-gitops** — Helm-чарты, манифесты ArgoCD.
 - [x] **mediapulse-infra** — Репозиторий конфигураций локального Kind-кластера и GitOps-развертывания.
