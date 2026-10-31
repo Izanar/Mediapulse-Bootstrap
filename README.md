@@ -75,13 +75,20 @@ make make-gcp    # облачный/IaC toolchain (gcloud, Terraform, Terragrunt
 
 ## ☁️ GCP / GKE (облачная инфраструктура)
 
-Скрипт `gcp/setup-gcp.sh` подготавливает только инструменты. Облачная инфраструктура как код (VPC, GKE, RDS/Cloud SQL, buckets) планируется в репозитории `mediapulse-infra` (этап 5 дорожной карты, пока не реализована).
+Скрипт `gcp/setup-gcp.sh` подготавливает только инструменты. Облачная инфраструктура как код (VPC, GKE, Cloud SQL, buckets) планируется в репозитории `mediapulse-infra` (этап 5 дорожной карты, пока не реализована).
 
-После установки:
+После установки выполните по порядку:
 
 1. Авторизуйтесь: `gcloud auth login`
 2. Выберите проект: `gcloud config set project PROJECT_ID`
-3. Для работы с GKE установите(auth plugin уже входит в `google-cloud-cli-gke-gcloud-auth-plugin`).
+3. Включите необходимые API (обязательно перед запуском Terraform/Terragrunt):
+
+   ```bash
+   gcloud services enable container.googleapis.com compute.googleapis.com
+   ```
+
+   Скрипт `gcp/setup-gcp.sh` попытается сделать это автоматически на шаге `[7/7]`, если вы уже авторизованы и проект задан.
+4. Для работы с GKE через `kubectl` установите auth plugin (уже входит в `google-cloud-cli-gke-gcloud-auth-plugin`).
 
 ---
 
