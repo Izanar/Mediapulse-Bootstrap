@@ -101,7 +101,10 @@ if ! has_cmd terragrunt; then
     curl -fsSL -o "$TG_KEY"         "https://github.com/gruntwork-io/terragrunt/releases/download/${terragrunt_version}/terragrunt-signing-key.asc"
 
     echo "  -> Проверка GPG-подписи SHA256SUMS..."
-    GNUPGHOME="$TG_GNUPGHOME" gpg --batch --import "$TG_KEY" >/dev/null 2>&1
+    if ! GNUPGHOME="$TG_GNUPGHOME" gpg --batch --import "$TG_KEY" >/dev/null 2>&1; then
+        echo "❌ Не удалось импортировать GPG-ключ Terragrunt."
+        exit 1
+    fi
     if ! GNUPGHOME="$TG_GNUPGHOME" gpg --batch --verify "$TG_SIG" "$TG_SHA256SUMS" >/dev/null 2>&1; then
         echo "❌ GPG-подпись SHA256SUMS не прошла проверку."
         exit 1
