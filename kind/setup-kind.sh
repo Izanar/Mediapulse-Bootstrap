@@ -54,9 +54,6 @@ sudo apt-get install -y \
     wget \
     git \
     build-essential \
-    python3.12 \
-    python3.12-venv \
-    python3-pip \
     gnupg \
     lsb-release \
     jq \
@@ -148,7 +145,6 @@ echo "[5/5] Environment Summary:"
 echo "------------------------------------------"
 echo "OS:           $(lsb_release -ds)"
 echo "Architecture: ${ARCH}"
-echo "Python:       $(python3.12 --version)"
 echo "Git:          $(git --version)"
 echo "GitHub CLI:   $(gh --version | head -n 1)"
 echo "Docker:       $(docker --version 2>/dev/null || echo 'Not running or permission required')"
