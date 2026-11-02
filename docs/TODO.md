@@ -65,7 +65,7 @@
 - [x] 4.5. Локальное хранилище секретов Vault и синхронизация через External Secrets Operator (ESO). Production-конфигурация хранилища секретов остаётся отдельной задачей.
 
 ## 📍 Этап 5: Облачная инфраструктура (`mediapulse-infra`)
-- [ ] 5.0. Включить необходимые GCP API: `gcloud services enable container.googleapis.com compute.googleapis.com` (после `gcloud auth login` и `gcloud config set project PROJECT_ID`). Зафиксировано в `gcp/setup-gcp.sh` (шаг [7/7]).
+- [x] 5.0. Включить необходимые GCP API: `gcloud services enable container.googleapis.com compute.googleapis.com` (после `gcloud auth login` и `gcloud config set project PROJECT_ID`). Зафиксировано в `gcp/setup-gcp.sh` (шаг [7/7]).
 - [ ] 5.1. Проектирование структуры модулей Terraform/Terragrunt (облачная инфраструктура ещё не реализована).
 - [ ] 5.2. Написание манифестов (VPC, GKE, Cloud SQL, buckets).
 - [ ] 5.3. Выполнение `terraform plan` и тестовый деплой в облако.
