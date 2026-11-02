@@ -52,7 +52,18 @@ for name in "${REPOS[@]}"; do
     git commit -m "$COMMIT_MESSAGE" || exit 1
 
     echo "⬆️  Push origin/$branch..."
-    git push -u origin "$branch" || exit 1
+    if ! git push -u origin "$branch"; then
+      echo "⚠️  Push rejected — интеграция удалённых zmian (rebase)..."
+      git fetch origin --prune
+      if git rebase "origin/$branch"; then
+        echo "↩️  Rebase на origin/$branch выполнен — повторная отправка..."
+        git push -u origin "$branch" || exit 1
+      else
+        echo "❌ Rebase не удался (конфликты) — отмена."
+        git rebase --abort 2>/dev/null || true
+        exit 1
+      fi
+    fi
 
     echo "✅ Отправлено: $name"
   )
